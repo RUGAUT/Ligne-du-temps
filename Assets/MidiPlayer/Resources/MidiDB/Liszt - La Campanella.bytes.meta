@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0be0e1026f52dcb4fa5e5e7d7c9e4d8d
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.18.0
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Liszt - La Campanella.bytes
+  uploadId: 868714

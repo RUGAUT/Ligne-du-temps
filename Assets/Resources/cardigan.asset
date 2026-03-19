@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: cardigan
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: cardigan
+  artist: Taylor Swift
+  year: 2020
+  audioClip: {fileID: 8300000, guid: 4d4471063a5bd344996ad1814a3f29e6, type: 3}
+  cardSprite: {fileID: 6963322998463068953, guid: 38ecfae3a127d394aaa224287b2b55ba, type: 3}

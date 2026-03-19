@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 31298ee9d46e6d447878f13ac6355775
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.18.0
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Mike Oldfield - Ommadawn 1b.bytes
+  uploadId: 868714

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 7d8aa18cd25b4874899b7e27a9ca9b4f
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.18.0
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/ZZ_2180 Brassens - Pauvre Martin.bytes
+  uploadId: 868714

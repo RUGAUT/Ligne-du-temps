@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Spring Waltz
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Spring Waltz
+  artist: Yiruma
+  year: 2011
+  audioClip: {fileID: 8300000, guid: 8243bc0f5e178004c938431c4ac8aacb, type: 3}
+  cardSprite: {fileID: 1797764137301760914, guid: 51d2016e86c6f83459dfc9ec07d78fd2, type: 3}

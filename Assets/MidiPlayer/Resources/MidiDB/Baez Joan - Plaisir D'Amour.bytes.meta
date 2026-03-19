@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: fc8fc5ffebd645947b4c0bb55d110e2d
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.18.0
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/Baez Joan - Plaisir D'Amour.bytes
+  uploadId: 868714

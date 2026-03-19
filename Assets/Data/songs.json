@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Bad Blood",
+    "artist": "Taylor Swift",
+    "year": 2014,
+    "audioFile": "bad-blood-taylor-swift-beginner"
+  },
+  {
+    "title": "cardigan",
+    "artist": "Taylor Swift",
+    "year": 2020,
+    "audioFile": "cardigan-taylor-swift-beginner"
+  },
+  {
+    "title": "Goodbye",
+    "artist": "Feder & Lyse",
+    "year": 2015,
+    "audioFile": "goodbye-advanced"
+  },
+  {
+    "title": "Here Comes the Sun",
+    "artist": "The Beatles",
+    "year": 1969,
+    "audioFile": "here-comes-the-sun-beginner"
+  },
+  {
+    "title": "The Rains of Castamere",
+    "artist": "Ramin Djawadi",
+    "year": 2012,
+    "audioFile": "rains-of-castamere-beginner"
+  },
+  {
+    "title": "Spring Waltz",
+    "artist": "Yiruma",
+    "year": 2011,
+    "audioFile": "spring-waltz-yiruma-beginner"
+  }
+]

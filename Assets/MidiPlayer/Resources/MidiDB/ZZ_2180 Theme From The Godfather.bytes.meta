@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e72be46bd2a834c4e9d0b17f430b65d8
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 107994
+  packageName: Maestro - Midi Player Tool Kit - Free
+  packageVersion: 2.18.0
+  assetPath: Assets/MidiPlayer/Resources/MidiDB/ZZ_2180 Theme From The Godfather.bytes
+  uploadId: 868714
