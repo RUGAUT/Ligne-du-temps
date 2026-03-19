@@ -4,25 +4,11 @@ using UnityEngine.EventSystems;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public int playerIndex; // 0-4 pour Player1Timeline, 5-9 pour Player2Timeline
+    public int playerIndex; // 0-4 pour Player1, 5-9 pour Player2
+    public int orderIndex;  // Index de la DropZone (0, 1, 2, ...)
     private Image image;
     private bool isOccupied = false;
     private Color originalColor;
-
-    private static int _firstCardYearPlayer1 = -1;
-    private static int _firstCardYearPlayer2 = -1;
-
-    public static int FirstCardYearPlayer1
-    {
-        get { return _firstCardYearPlayer1; }
-        set { _firstCardYearPlayer1 = value; }
-    }
-
-    public static int FirstCardYearPlayer2
-    {
-        get { return _firstCardYearPlayer2; }
-        set { _firstCardYearPlayer2 = value; }
-    }
 
     void Awake()
     {
@@ -42,42 +28,26 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
                 if (isPlayer1Card == isPlayer1DropZone && !isOccupied)
                 {
-                    // Crée une nouvelle carte dans ce DropZone
+                    // Instancie la carte dans le DropZone
                     GameObject cardGO = Instantiate(cardButton.gameObject, transform);
                     CardButton newCardButton = cardGO.GetComponent<CardButton>();
-                    newCardButton.SetCard(cardButton.currentSong, false);
+                    newCardButton.SetCard(cardButton.currentSong, true);
 
-                    // Positionne correctement la carte dans le DropZone
+                    // Positionnement
                     RectTransform cardRectTransform = cardGO.GetComponent<RectTransform>();
                     cardRectTransform.anchorMin = new Vector2(0, 0);
                     cardRectTransform.anchorMax = new Vector2(1, 1);
                     cardRectTransform.offsetMin = Vector2.zero;
                     cardRectTransform.offsetMax = Vector2.zero;
 
-                    // Vérifie si c'est la première carte du joueur
-                    if (isPlayer1Card && _firstCardYearPlayer1 == -1)
-                    {
-                        _firstCardYearPlayer1 = cardButton.currentSong.year;
-                        newCardButton.ShowAllText();
-                    }
-                    else if (!isPlayer1Card && _firstCardYearPlayer2 == -1)
-                    {
-                        _firstCardYearPlayer2 = cardButton.currentSong.year;
-                        newCardButton.ShowAllText();
-                    }
-
-                    // Marque ce DropZone comme occupé
+                    // Ajoute la carte au joueur
+                    GameManager.Instance.AddCardToPlayer(cardButton.currentSong, cardButton.playerIndex, orderIndex);
                     isOccupied = true;
-
-                    // Passe au joueur suivant
                     GameManager.Instance.DrawCardForPlayer(1 - cardButton.playerIndex);
-
-                    // Détruit la carte originale
                     Destroy(eventData.pointerDrag);
                 }
                 else
                 {
-                    // Retourne la carte à sa position initiale
                     cardButton.GetComponent<RectTransform>().anchoredPosition = cardButton.initialPosition;
                 }
             }
@@ -93,15 +63,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             {
                 bool isPlayer1Card = cardButton.playerIndex == 0;
                 bool isPlayer1DropZone = playerIndex < 5;
-
-                if (isPlayer1Card == isPlayer1DropZone && !isOccupied)
-                {
-                    image.color = Color.green;
-                }
-                else
-                {
-                    image.color = Color.red;
-                }
+                image.color = (isPlayer1Card == isPlayer1DropZone && !isOccupied) ? Color.green : Color.red;
             }
         }
     }
@@ -111,21 +73,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         if (eventData.pointerDrag != null)
         {
             image.color = originalColor;
-        }
-    }
-
-    public static void ResetFirstCards()
-    {
-        _firstCardYearPlayer1 = -1;
-        _firstCardYearPlayer2 = -1;
-    }
-
-    public static void ShowAllTexts()
-    {
-        CardButton[] allCards = FindObjectsOfType<CardButton>();
-        foreach (CardButton card in allCards)
-        {
-            card.ShowAllText();
         }
     }
 }

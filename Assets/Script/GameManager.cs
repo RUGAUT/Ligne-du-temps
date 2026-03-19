@@ -5,8 +5,7 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager _instance;
-    public static GameManager Instance { get { return _instance; } }
+    public static GameManager Instance { get; private set; }
 
     public List<SongData> allSongs;
     public AudioSource audioSource;
@@ -15,32 +14,24 @@ public class GameManager : MonoBehaviour
     public Button validateButton;
 
     private List<SongData> deck;
-    private int _currentPlayerIndex = 0;
-    public int currentPlayerIndex { get { return _currentPlayerIndex; } }
+    private List<(SongData song, int dropZoneIndex)> player1Cards = new List<(SongData, int)>();
+    private List<(SongData song, int dropZoneIndex)> player2Cards = new List<(SongData, int)>();
+    private int currentPlayerIndex = 0;
 
     void Awake()
     {
-        if (_instance != null && _instance != this)
-        {
+        if (Instance != null && Instance != this)
             Destroy(gameObject);
-        }
         else
-        {
-            _instance = this;
-        }
+            Instance = this;
     }
 
     void Start()
     {
-        DropZone.ResetFirstCards();
         ShuffleDeck();
-        DrawCardForPlayer(_currentPlayerIndex);
-
-        if (validateButton != null)
-        {
-            validateButton.onClick.AddListener(OnValidateButtonClick);
-            validateButton.gameObject.SetActive(false);
-        }
+        DrawCardForPlayer(currentPlayerIndex);
+        validateButton.onClick.AddListener(CalculateWinner);
+        validateButton.gameObject.SetActive(false);
     }
 
     void ShuffleDeck()
@@ -51,13 +42,10 @@ public class GameManager : MonoBehaviour
 
     public void DrawCardForPlayer(int playerIndex)
     {
-        _currentPlayerIndex = playerIndex;
+        currentPlayerIndex = playerIndex;
         if (deck.Count == 0)
         {
-            if (validateButton != null)
-            {
-                validateButton.gameObject.SetActive(true);
-            }
+            validateButton.gameObject.SetActive(true);
             return;
         }
 
@@ -66,27 +54,43 @@ public class GameManager : MonoBehaviour
 
         GameObject cardGO = Instantiate(cardButtonPrefab, cardDeckParent);
         CardButton cardButton = cardGO.GetComponent<CardButton>();
-        bool isFirstCard = (playerIndex == 0 && DropZone.FirstCardYearPlayer1 == -1) ||
-                           (playerIndex == 1 && DropZone.FirstCardYearPlayer2 == -1);
-        cardButton.SetCard(card, false);
-        if (isFirstCard)
-        {
-            cardButton.ShowAllText();
-        }
+        cardButton.SetCard(card, true);
         cardButton.SetPlayerIndex(playerIndex);
+    }
+
+    public void AddCardToPlayer(SongData song, int playerIndex, int dropZoneIndex)
+    {
+        if (playerIndex == 0) player1Cards.Add((song, dropZoneIndex));
+        else player2Cards.Add((song, dropZoneIndex));
     }
 
     public void PlaySong(SongData song)
     {
-        if (song != null && song.audioClip != null)
+        if (song?.audioClip != null)
         {
             audioSource.clip = song.audioClip;
             audioSource.Play();
         }
     }
 
-    private void OnValidateButtonClick()
+    public void CalculateWinner()
     {
-        DropZone.ShowAllTexts();
+        var sortedPlayer1 = player1Cards.OrderBy(c => c.dropZoneIndex).ToList();
+        var sortedPlayer2 = player2Cards.OrderBy(c => c.dropZoneIndex).ToList();
+
+        int scorePlayer1 = 0, scorePlayer2 = 0;
+
+        for (int i = 0; i < sortedPlayer1.Count - 1; i++)
+            if (sortedPlayer1[i].song.year <= sortedPlayer1[i + 1].song.year) scorePlayer1++;
+
+        for (int i = 0; i < sortedPlayer2.Count - 1; i++)
+            if (sortedPlayer2[i].song.year <= sortedPlayer2[i + 1].song.year) scorePlayer2++;
+
+        Debug.Log($"Player 1: {scorePlayer1} cartes dans l'ordre");
+        Debug.Log($"Player 2: {scorePlayer2} cartes dans l'ordre");
+
+        if (scorePlayer1 > scorePlayer2) Debug.Log("Player 1 gagne !");
+        else if (scorePlayer2 > scorePlayer1) Debug.Log("Player 2 gagne !");
+        else Debug.Log("Égalité !");
     }
 }
