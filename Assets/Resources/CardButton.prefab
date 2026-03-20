@@ -423,8 +423,8 @@ GameObject:
   - component: {fileID: 2984156747600162374}
   - component: {fileID: 1710789603863989105}
   - component: {fileID: 8711929377283609624}
-  - component: {fileID: 1806760896443974182}
   - component: {fileID: 3995150122356447530}
+  - component: {fileID: 1806760896443974182}
   m_Layer: 5
   m_Name: CardButton
   m_TagString: Untagged
@@ -536,6 +536,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &3995150122356447530
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8053910337103730126}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &1806760896443974182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,15 +563,4 @@ MonoBehaviour:
   titleText: {fileID: 4371850292693082805}
   artistText: {fileID: 520368987473271629}
   yearText: {fileID: 6734847757436822597}
---- !u!225 &3995150122356447530
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8053910337103730126}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  playerIndex: 0

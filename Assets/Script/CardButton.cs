@@ -16,6 +16,7 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private CanvasGroup canvasGroup;
     public Vector2 initialPosition { get; private set; }
     private Image cardImage;
+    private bool isFirstCard = false;
 
     void Awake()
     {
@@ -26,13 +27,32 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         initialPosition = rectTransform.anchoredPosition;
     }
 
-    public void SetCard(SongData song, bool faceUp)
+    public void SetCard(SongData song, bool faceUp, bool isFirst = false)
     {
         _currentSong = song;
-        if (titleText != null) { titleText.text = song.title; titleText.gameObject.SetActive(faceUp); }
-        if (artistText != null) { artistText.text = song.artist; artistText.gameObject.SetActive(faceUp); }
-        if (yearText != null) { yearText.text = song.year.ToString(); yearText.gameObject.SetActive(faceUp); }
-        if (cardImage != null && song.cardSprite != null) { cardImage.sprite = song.cardSprite; cardImage.color = Color.white; }
+        isFirstCard = isFirst;
+
+        if (titleText != null)
+        {
+            titleText.text = song.title;
+            titleText.gameObject.SetActive(faceUp && isFirst);
+        }
+        if (artistText != null)
+        {
+            artistText.text = song.artist;
+            artistText.gameObject.SetActive(faceUp && isFirst);
+        }
+        if (yearText != null)
+        {
+            yearText.text = song.year.ToString();
+            yearText.gameObject.SetActive(faceUp && isFirst);
+        }
+
+        if (cardImage != null && song.cardSprite != null)
+        {
+            cardImage.sprite = song.cardSprite;
+            cardImage.color = Color.white;
+        }
     }
 
     public void SetPlayerIndex(int index) => playerIndex = index;
