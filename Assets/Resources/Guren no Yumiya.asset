@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Guren no Yumiya
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Guren no Yumiya
+  artist: Linked Horizon
+  year: 2013
+  audioClip: {fileID: 8300000, guid: 6a334a00e9bdfc849b3461ec6c025748, type: 3}
+  cardSprite: {fileID: -1043667813324868278, guid: c477e7dd3068688449e170e3827ef802, type: 3}

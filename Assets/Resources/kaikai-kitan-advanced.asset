@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: kaikai-kitan-advanced
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: kaikai-kitan-advanced
+  artist: Eve
+  year: 2020
+  audioClip: {fileID: 8300000, guid: c1b47bb63f83914449d2c8525179286d, type: 3}
+  cardSprite: {fileID: -4507266678106395347, guid: 282df4054fdf2ab43bc9007476993a21, type: 3}

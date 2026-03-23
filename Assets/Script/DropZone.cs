@@ -5,9 +5,16 @@ using TMPro;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public int playerIndex; // 0 pour Player1, 1 pour Player2
-    public int orderIndex;  // Index de la DropZone (0, 1, 2, ...)
-    public TextMeshProUGUI dateText;
+    public int playerIndex;
+    public int orderIndex;
+
+    [Header("Textes & UI")]
+    public TextMeshProUGUI dateText; // Le texte géré par le code (si tu l'utilises)
+    public GameObject defaultDateText; // NOUVEAU : Le texte fixe à désactiver (ton repère chronologique)
+
+    [Header("Feedback Visuel")]
+    public GameObject vfxObject;
+
     private Image image;
     private bool isOccupied = false;
     private Color originalColor;
@@ -17,26 +24,20 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         image = GetComponent<Image>();
         originalColor = image.color;
+        if (vfxObject != null) vfxObject.SetActive(false);
+
+        // On s'assure que le texte de fond est bien allumé au départ
+        if (defaultDateText != null) defaultDateText.SetActive(true);
     }
 
     public void Initialize(int year)
     {
         targetYear = year;
-        if (dateText != null)
-        {
-            dateText.text = year.ToString();
-        }
+        if (dateText != null) dateText.text = year.ToString();
     }
 
-    public int GetTargetYear()
-    {
-        return targetYear;
-    }
-
-    public void ResetOccupied()
-    {
-        isOccupied = false;
-    }
+    public int GetTargetYear() => targetYear;
+    public void ResetOccupied() => isOccupied = false;
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -45,24 +46,41 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             CardButton cardButton = eventData.pointerDrag.GetComponent<CardButton>();
             if (cardButton != null)
             {
-                bool isPlayer1Card = cardButton.playerIndex == 0;
-                bool isPlayer1DropZone = playerIndex == 0;
-
-                if (isPlayer1Card == isPlayer1DropZone && !isOccupied)
+                if (cardButton.playerIndex == playerIndex && !isOccupied)
                 {
+                    // Placement de la carte
                     GameObject cardGO = Instantiate(cardButton.gameObject, transform);
                     CardButton newCardButton = cardGO.GetComponent<CardButton>();
                     newCardButton.SetCard(cardButton.currentSong, true);
 
-                    RectTransform cardRectTransform = cardGO.GetComponent<RectTransform>();
-                    cardRectTransform.anchorMin = new Vector2(0, 0);
-                    cardRectTransform.anchorMax = new Vector2(1, 1);
-                    cardRectTransform.offsetMin = Vector2.zero;
-                    cardRectTransform.offsetMax = Vector2.zero;
+                    RectTransform rt = cardGO.GetComponent<RectTransform>();
+                    rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+                    rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
 
-                    GameManager.Instance.AddCardToPlayer(cardButton.currentSong, cardButton.playerIndex, orderIndex);
+                    GameManager.Instance.AddCardToPlayer(cardButton.currentSong, playerIndex, orderIndex);
                     isOccupied = true;
-                    GameManager.Instance.DrawCardForPlayer(1 - cardButton.playerIndex);
+
+                    // --- NOUVEAU : On désactive le texte fixe de la case ---
+                    if (defaultDateText != null)
+                    {
+                        defaultDateText.SetActive(false);
+                    }
+                    // -------------------------------------------------------
+
+                    // Vérification du score & VFX
+                    if (cardButton.currentSong.year == targetYear)
+                    {
+                        newCardButton.ShowAllText();
+                        GameManager.Instance.HandleCorrectPlacement(playerIndex);
+
+                        if (vfxObject != null)
+                        {
+                            vfxObject.SetActive(true);
+                            Invoke("HideVFX", 2.0f);
+                        }
+                    }
+
+                    GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
                     Destroy(eventData.pointerDrag);
                 }
                 else
@@ -71,36 +89,19 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                 }
             }
         }
+        image.color = originalColor;
     }
+
+    private void HideVFX() { if (vfxObject != null) vfxObject.SetActive(false); }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)
         {
-            CardButton cardButton = eventData.pointerDrag.GetComponent<CardButton>();
-            if (cardButton != null)
-            {
-                bool isPlayer1Card = cardButton.playerIndex == 0;
-                bool isPlayer1DropZone = playerIndex == 0;
-
-                // Vérifier que la carte appartient au bon joueur ET que la DropZone n'est pas occupée
-                if (isPlayer1Card == isPlayer1DropZone && !isOccupied)
-                {
-                    image.color = Color.green;
-                }
-                else
-                {
-                    image.color = Color.red;
-                }
-            }
+            CardButton cb = eventData.pointerDrag.GetComponent<CardButton>();
+            image.color = (cb != null && cb.playerIndex == playerIndex && !isOccupied) ? Color.green : Color.red;
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (eventData.pointerDrag != null)
-        {
-            image.color = originalColor;
-        }
-    }
+    public void OnPointerExit(PointerEventData eventData) => image.color = originalColor;
 }
