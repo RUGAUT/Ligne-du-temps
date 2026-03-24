@@ -17,3 +17,4 @@ MonoBehaviour:
   year: 1969
   audioClip: {fileID: 8300000, guid: 108bb37fbc59ba848982566f5e498a53, type: 3}
   cardSprite: {fileID: -1240652189600659532, guid: ef08a3847e75c5440af7090e1557a3aa, type: 3}
+  genre: 1

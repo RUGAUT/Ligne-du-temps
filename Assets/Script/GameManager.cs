@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEngine.InputSystem; // NOUVEAU : Indispensable pour le New Input System
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class GameManager : MonoBehaviour
     public List<DropZone> player2DropZones;
     public int cardsPerPlayer = 5;
 
+    [Header("Debug & Dev Access")]
+    public bool isDebugMode = true;
+    public TextMeshProUGUI debugInfoText;
+
     [Header("UI & Feedback")]
     public TextMeshProUGUI player1ScoreText;
     public TextMeshProUGUI player2ScoreText;
@@ -27,8 +32,6 @@ public class GameManager : MonoBehaviour
     private int player2Score = 0;
     private List<SongData> player1Deck = new List<SongData>();
     private List<SongData> player2Deck = new List<SongData>();
-    private List<(SongData song, int dropZoneIndex, int targetYear)> player1Cards = new List<(SongData, int, int)>();
-    private List<(SongData song, int dropZoneIndex, int targetYear)> player2Cards = new List<(SongData, int, int)>();
     private bool firstCardPlayer1 = true;
     private bool firstCardPlayer2 = true;
 
@@ -40,38 +43,72 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (isDebugMode && GameSettings.SelectedGenre == MusicGenre.All)
+        {
+            Debug.Log("<color=cyan>DEBUG : Aucun genre détecté (Lancement direct), mode ALL.</color>");
+        }
+
         UpdateScoreUI();
         DivideSongsBetweenPlayers();
         InitializeDropZones();
         DrawCardForPlayer(0);
         validateButton.onClick.AddListener(OnValidateButtonClick);
         validateButton.gameObject.SetActive(false);
-    }
 
-    public void HandleCorrectPlacement(int playerIndex)
-    {
-        // 1. Son
-        if (validationSound != null && audioSource != null)
-            audioSource.PlayOneShot(validationSound);
-
-        // 2. Score
-        if (playerIndex == 0) player1Score++;
-        else player2Score++;
-
-        UpdateScoreUI();
-    }
-
-    private void UpdateScoreUI()
-    {
-        if (player1ScoreText != null) player1ScoreText.text = "Score J1: " + player1Score;
-        if (player2ScoreText != null) player2ScoreText.text = "Score J2: " + player2Score;
+        if (debugInfoText != null)
+            debugInfoText.text = "Genre : " + GameSettings.SelectedGenre.ToString();
     }
 
     private void DivideSongsBetweenPlayers()
     {
-        List<SongData> shuffledSongs = allSongs.OrderBy(x => Random.value).ToList();
-        player1Deck = shuffledSongs.GetRange(0, cardsPerPlayer);
-        player2Deck = shuffledSongs.GetRange(cardsPerPlayer, cardsPerPlayer);
+        List<SongData> filteredSongs;
+
+        if (GameSettings.SelectedGenre == MusicGenre.All)
+        {
+            filteredSongs = allSongs.OrderBy(x => Random.value).ToList();
+        }
+        else
+        {
+            filteredSongs = allSongs
+                .Where(s => s.genre == GameSettings.SelectedGenre)
+                .OrderBy(x => Random.value)
+                .ToList();
+        }
+
+        if (isDebugMode)
+        {
+            Debug.Log($"<color=yellow>GAME SETUP : Genre [{GameSettings.SelectedGenre}] | Musiques : {filteredSongs.Count}</color>");
+        }
+
+        if (filteredSongs.Count < cardsPerPlayer * 2)
+        {
+            if (filteredSongs.Count == 0)
+            {
+                Debug.LogError("ERREUR : Aucune musique pour " + GameSettings.SelectedGenre);
+                filteredSongs = allSongs.OrderBy(x => Random.value).ToList();
+            }
+            else
+            {
+                cardsPerPlayer = filteredSongs.Count / 2;
+                if (isDebugMode) Debug.Log("<color=orange>DEBUG : Cartes par joueur -> " + cardsPerPlayer + "</color>");
+            }
+        }
+
+        player1Deck = filteredSongs.GetRange(0, cardsPerPlayer);
+        player2Deck = filteredSongs.GetRange(cardsPerPlayer, cardsPerPlayer);
+    }
+
+    // --- MISE À JOUR POUR LE NEW INPUT SYSTEM ---
+    void Update()
+    {
+        if (isDebugMode)
+        {
+            // Vérifie si la touche 'R' est pressée avec le New Input System
+            if (Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame)
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+            }
+        }
     }
 
     private void InitializeDropZones()
@@ -79,17 +116,28 @@ public class GameManager : MonoBehaviour
         var sorted1 = player1Deck.OrderBy(s => s.year).ToList();
         var sorted2 = player2Deck.OrderBy(s => s.year).ToList();
 
-        for (int i = 0; i < player1DropZones.Count && i < sorted1.Count; i++)
+        for (int i = 0; i < player1DropZones.Count; i++)
         {
-            player1DropZones[i].Initialize(sorted1[i].year);
-            player1DropZones[i].playerIndex = 0;
-            player1DropZones[i].orderIndex = i;
+            if (i < sorted1.Count)
+            {
+                player1DropZones[i].gameObject.SetActive(true);
+                player1DropZones[i].Initialize(sorted1[i].year);
+                player1DropZones[i].playerIndex = 0;
+                player1DropZones[i].orderIndex = i;
+            }
+            else player1DropZones[i].gameObject.SetActive(false);
         }
-        for (int i = 0; i < player2DropZones.Count && i < sorted2.Count; i++)
+
+        for (int i = 0; i < player2DropZones.Count; i++)
         {
-            player2DropZones[i].Initialize(sorted2[i].year);
-            player2DropZones[i].playerIndex = 1;
-            player2DropZones[i].orderIndex = i;
+            if (i < sorted2.Count)
+            {
+                player2DropZones[i].gameObject.SetActive(true);
+                player2DropZones[i].Initialize(sorted2[i].year);
+                player2DropZones[i].playerIndex = 1;
+                player2DropZones[i].orderIndex = i;
+            }
+            else player2DropZones[i].gameObject.SetActive(false);
         }
     }
 
@@ -117,11 +165,21 @@ public class GameManager : MonoBehaviour
         cardButton.SetPlayerIndex(playerIndex);
     }
 
-    public void AddCardToPlayer(SongData song, int pIdx, int dIdx)
+    public void HandleCorrectPlacement(int playerIndex)
     {
-        DropZone dz = (pIdx == 0) ? player1DropZones[dIdx] : player2DropZones[dIdx];
-        if (pIdx == 0) player1Cards.Add((song, dIdx, dz.GetTargetYear()));
-        else player2Cards.Add((song, dIdx, dz.GetTargetYear()));
+        if (validationSound != null && audioSource != null)
+            audioSource.PlayOneShot(validationSound);
+
+        if (playerIndex == 0) player1Score++;
+        else player2Score++;
+
+        UpdateScoreUI();
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (player1ScoreText != null) player1ScoreText.text = "Score J1: " + player1Score;
+        if (player2ScoreText != null) player2ScoreText.text = "Score J2: " + player2Score;
     }
 
     public void PlaySong(SongData song)
@@ -135,6 +193,7 @@ public class GameManager : MonoBehaviour
     {
         CardButton[] allCards = FindObjectsOfType<CardButton>();
         foreach (CardButton card in allCards) card.ShowAllText();
-        Debug.Log($"Final: J1:{player1Score} - J2:{player2Score}");
     }
+
+    public void AddCardToPlayer(SongData song, int pIdx, int dIdx) { }
 }
