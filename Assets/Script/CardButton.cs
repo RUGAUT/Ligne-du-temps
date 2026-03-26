@@ -16,7 +16,6 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private CanvasGroup canvasGroup;
     public Vector2 initialPosition { get; private set; }
     private Image cardImage;
-    private bool isFirstCard = false;
 
     void Awake()
     {
@@ -24,28 +23,27 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
         cardImage = GetComponent<Image>();
-        initialPosition = rectTransform.anchoredPosition;
     }
 
-    public void SetCard(SongData song, bool faceUp, bool isFirst = false)
+    // Corrigé : showInfo est utilisé pour décider d'afficher les textes ou non
+    public void SetCard(SongData song, bool faceUp, bool showInfo = false)
     {
         _currentSong = song;
-        isFirstCard = isFirst;
 
         if (titleText != null)
         {
             titleText.text = song.title;
-            titleText.gameObject.SetActive(faceUp && isFirst);
+            titleText.gameObject.SetActive(faceUp && showInfo);
         }
         if (artistText != null)
         {
             artistText.text = song.artist;
-            artistText.gameObject.SetActive(faceUp && isFirst);
+            artistText.gameObject.SetActive(faceUp && showInfo);
         }
         if (yearText != null)
         {
             yearText.text = song.year.ToString();
-            yearText.gameObject.SetActive(faceUp && isFirst);
+            yearText.gameObject.SetActive(faceUp && showInfo);
         }
 
         if (cardImage != null && song.cardSprite != null)
@@ -72,6 +70,13 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        // Empêche de déplacer une carte déjà placée sur le plateau
+        if (transform.parent != GameManager.Instance.cardDeckParent)
+        {
+            eventData.pointerDrag = null;
+            return;
+        }
+
         initialPosition = rectTransform.anchoredPosition;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0.6f;

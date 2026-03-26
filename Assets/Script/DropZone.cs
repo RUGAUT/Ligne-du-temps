@@ -1,22 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using TMPro;
+using System.Collections;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public int playerIndex;
     public int orderIndex;
+    public bool isOccupied = false;
 
-    [Header("Textes & UI")]
-    public TextMeshProUGUI dateText; // Le texte géré par le code (si tu l'utilises)
-    public GameObject defaultDateText; // NOUVEAU : Le texte fixe à désactiver (ton repère chronologique)
+    [Header("UI")]
+    public TMPro.TextMeshProUGUI dateText;
+    public GameObject defaultDateText;
 
-    [Header("Feedback Visuel")]
-    public GameObject vfxObject;
+    [Header("Feedback")]
+    public GameObject vfxObject; // Succès
+    public GameObject errorVfxObject; // Échec (ex: croix rouge)
 
     private Image image;
-    private bool isOccupied = false;
     private Color originalColor;
     private int targetYear;
 
@@ -24,84 +25,82 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     {
         image = GetComponent<Image>();
         originalColor = image.color;
-        if (vfxObject != null) vfxObject.SetActive(false);
+    }
 
-        // On s'assure que le texte de fond est bien allumé au départ
+    public void Initialize(int year, int pIdx, int oIdx)
+    {
+        targetYear = year;
+        playerIndex = pIdx;
+        orderIndex = oIdx;
+        isOccupied = false;
+        if (dateText != null) dateText.text = year.ToString();
         if (defaultDateText != null) defaultDateText.SetActive(true);
     }
 
-    public void Initialize(int year)
-    {
-        targetYear = year;
-        if (dateText != null) dateText.text = year.ToString();
-    }
-
-    public int GetTargetYear() => targetYear;
-    public void ResetOccupied() => isOccupied = false;
-
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null)
+        if (eventData.pointerDrag == null) return;
+        CardButton card = eventData.pointerDrag.GetComponent<CardButton>();
+
+        if (card != null && card.playerIndex == playerIndex && !isOccupied)
         {
-            CardButton cardButton = eventData.pointerDrag.GetComponent<CardButton>();
-            if (cardButton != null)
+            if (card.currentSong.year == targetYear)
             {
-                if (cardButton.playerIndex == playerIndex && !isOccupied)
+                // RÉUSSITE
+                GameObject cardGO = Instantiate(card.gameObject, transform);
+                CardButton newCard = cardGO.GetComponent<CardButton>();
+                newCard.SetCard(card.currentSong, true, true);
+
+                RectTransform rt = cardGO.GetComponent<RectTransform>();
+                rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
+                rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
+
+                isOccupied = true;
+                if (defaultDateText != null) defaultDateText.SetActive(false);
+                GameManager.Instance.HandleCorrectPlacement(playerIndex);
+                if (vfxObject != null) { vfxObject.SetActive(true); Invoke("HideVFX", 2.0f); }
+            }
+            else
+            {
+                // ÉCHEC
+                GameManager.Instance.HandleWrongPlacement();
+                StartCoroutine(ShakeDropZone());
+                if (errorVfxObject != null)
                 {
-                    // Placement de la carte
-                    GameObject cardGO = Instantiate(cardButton.gameObject, transform);
-                    CardButton newCardButton = cardGO.GetComponent<CardButton>();
-                    newCardButton.SetCard(cardButton.currentSong, true);
-
-                    RectTransform rt = cardGO.GetComponent<RectTransform>();
-                    rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one;
-                    rt.offsetMin = Vector2.zero; rt.offsetMax = Vector2.zero;
-
-                    GameManager.Instance.AddCardToPlayer(cardButton.currentSong, playerIndex, orderIndex);
-                    isOccupied = true;
-
-                    // --- NOUVEAU : On désactive le texte fixe de la case ---
-                    if (defaultDateText != null)
-                    {
-                        defaultDateText.SetActive(false);
-                    }
-                    // -------------------------------------------------------
-
-                    // Vérification du score & VFX
-                    if (cardButton.currentSong.year == targetYear)
-                    {
-                        newCardButton.ShowAllText();
-                        GameManager.Instance.HandleCorrectPlacement(playerIndex);
-
-                        if (vfxObject != null)
-                        {
-                            vfxObject.SetActive(true);
-                            Invoke("HideVFX", 2.0f);
-                        }
-                    }
-
-                    GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
-                    Destroy(eventData.pointerDrag);
-                }
-                else
-                {
-                    cardButton.GetComponent<RectTransform>().anchoredPosition = cardButton.initialPosition;
+                    GameObject evfx = Instantiate(errorVfxObject, transform.position, Quaternion.identity, transform);
+                    Destroy(evfx, 1.5f);
                 }
             }
+
+            GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
+            Destroy(eventData.pointerDrag);
         }
         image.color = originalColor;
     }
 
-    private void HideVFX() { if (vfxObject != null) vfxObject.SetActive(false); }
+    private IEnumerator ShakeDropZone()
+    {
+        Vector3 originalPos = transform.localPosition;
+        float elapsed = 0f;
+        while (elapsed < 0.3f)
+        {
+            float x = Random.Range(-8f, 8f);
+            float y = Random.Range(-8f, 8f);
+            transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.localPosition = originalPos;
+    }
 
+    private void HideVFX() { if (vfxObject != null) vfxObject.SetActive(false); }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)
         {
             CardButton cb = eventData.pointerDrag.GetComponent<CardButton>();
-            image.color = (cb != null && cb.playerIndex == playerIndex && !isOccupied) ? Color.green : Color.red;
+            image.color = (cb && cb.playerIndex == playerIndex && !isOccupied) ? Color.green : Color.red;
         }
     }
-
     public void OnPointerExit(PointerEventData eventData) => image.color = originalColor;
 }

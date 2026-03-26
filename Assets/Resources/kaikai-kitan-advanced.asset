@@ -17,4 +17,4 @@ MonoBehaviour:
   year: 2020
   audioClip: {fileID: 8300000, guid: c1b47bb63f83914449d2c8525179286d, type: 3}
   cardSprite: {fileID: -4507266678106395347, guid: 282df4054fdf2ab43bc9007476993a21, type: 3}
-  genre: 0
+  genres: 000000000100000005000000

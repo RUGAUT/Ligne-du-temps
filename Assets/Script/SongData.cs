@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic; // NOUVEAU : Nécessaire pour utiliser les Listes
 
 public enum MusicGenre { Pop, Rock, Rap, Jazz, Electro, All }
 
@@ -10,5 +11,7 @@ public class SongData : ScriptableObject
     public int year;
     public AudioClip audioClip;
     public Sprite cardSprite;
-    public MusicGenre genre; // Nouveau : permet de choisir le genre dans l'inspecteur
+
+    // NOUVEAU : Une liste pour cocher plusieurs genres dans l'inspecteur
+    public List<MusicGenre> genres;
 }

@@ -17,4 +17,4 @@ MonoBehaviour:
   year: 2013
   audioClip: {fileID: 8300000, guid: 6a334a00e9bdfc849b3461ec6c025748, type: 3}
   cardSprite: {fileID: -1043667813324868278, guid: c477e7dd3068688449e170e3827ef802, type: 3}
-  genre: 1
+  genres: 0100000005000000
