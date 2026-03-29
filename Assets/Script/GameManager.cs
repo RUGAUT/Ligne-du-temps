@@ -30,6 +30,14 @@ public class GameManager : MonoBehaviour
     public GameObject victoryPanel;
     public TextMeshProUGUI victoryText;
 
+    // NOUVEAU : Configuration des jetons
+    [Header("Jetons (Tokens)")]
+    public int startingTokens = 2; // Nombre de jetons limités par partie
+    private int player1Tokens;
+    private int player2Tokens;
+    public TextMeshProUGUI player1TokenText; // UI pour afficher les jetons du Joueur 1
+    public TextMeshProUGUI player2TokenText; // UI pour afficher les jetons du Joueur 2
+
     private List<SongData> player1Deck = new List<SongData>();
     private List<SongData> player2Deck = new List<SongData>();
     private bool firstCardPlayer1 = true;
@@ -44,6 +52,12 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (victoryPanel != null) victoryPanel.SetActive(false);
+
+        // NOUVEAU : Initialisation des jetons
+        player1Tokens = startingTokens;
+        player2Tokens = startingTokens;
+        UpdateTokenUI();
+
         DivideSongsBetweenPlayers();
         InitializeDropZones();
         UpdateScoreUI();
@@ -52,7 +66,6 @@ public class GameManager : MonoBehaviour
 
     private void DivideSongsBetweenPlayers()
     {
-        // CHANGEMENT ICI : On vérifie si la liste "genres" CONTIENT le genre sélectionné
         List<SongData> filteredSongs = allSongs
             .Where(s => GameSettings.SelectedGenre == MusicGenre.All || (s.genres != null && s.genres.Contains(GameSettings.SelectedGenre)))
             .OrderBy(x => Random.value).ToList();
@@ -99,6 +112,60 @@ public class GameManager : MonoBehaviour
         cb.SetCard(card, true, isFirst);
         if (playerIndex == 0) firstCardPlayer1 = false; else firstCardPlayer2 = false;
         cb.SetPlayerIndex(playerIndex);
+    }
+
+    // NOUVEAU : Fonction appelée quand un joueur utilise un jeton
+    public void UseToken(int playerIndex)
+    {
+        // 1. Vérifier si le joueur a encore des jetons
+        if (playerIndex == 0 && player1Tokens <= 0) return;
+        if (playerIndex == 1 && player2Tokens <= 0) return;
+
+        // 2. Trouver la carte actuellement en jeu pour ce joueur dans la zone de pioche
+        CardButton currentCard = cardDeckParent.GetComponentsInChildren<CardButton>()
+            .FirstOrDefault(c => c.playerIndex == playerIndex);
+
+        if (currentCard == null) return; // Pas de carte à remplacer
+
+        int targetYear = currentCard.currentSong.year;
+
+        // 3. Chercher une nouvelle chanson de la même année, mais différente de l'actuelle
+        SongData replacementSong = allSongs
+            .Where(s =>
+                s.year == targetYear &&
+                s != currentCard.currentSong &&
+                (GameSettings.SelectedGenre == MusicGenre.All || (s.genres != null && s.genres.Contains(GameSettings.SelectedGenre)))
+            )
+            .OrderBy(x => Random.value) // Aléatoire s'il y en a plusieurs
+            .FirstOrDefault();
+
+        // 4. Appliquer le remplacement si on trouve une chanson
+        if (replacementSong != null)
+        {
+            // Déduire le jeton
+            if (playerIndex == 0) player1Tokens--;
+            else player2Tokens--;
+
+            // Mettre à jour la carte existante (on garde showInfo à true pour qu'il puisse voir/entendre)
+            currentCard.SetCard(replacementSong, true, true);
+
+            // Lancer la nouvelle musique automatiquement (optionnel, mais sympa pour le feedback)
+            PlaySong(replacementSong);
+
+            // Mettre à jour l'affichage des jetons
+            UpdateTokenUI();
+        }
+        else
+        {
+            Debug.LogWarning("Joker échoué : Aucune autre chanson trouvée pour l'année " + targetYear);
+        }
+    }
+
+    // NOUVEAU : Mettre à jour l'interface des jetons
+    private void UpdateTokenUI()
+    {
+        if (player1TokenText != null) player1TokenText.text = $"Jetons J1: {player1Tokens}";
+        if (player2TokenText != null) player2TokenText.text = $"Jetons J2: {player2Tokens}";
     }
 
     public void HandleCorrectPlacement(int playerIndex)
