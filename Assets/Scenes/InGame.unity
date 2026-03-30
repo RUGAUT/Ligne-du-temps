@@ -1933,7 +1933,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8fae70e9c41ab478596ae383659c8b13, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f143067366c4b42409d7f7a2982c860f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4390,7 +4390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f470d9a369b694e80955bd0a2490c5fd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20360ece04be94540b1903b8e82f03af, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5655,6 +5655,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 586fd8cf6509c22489049316b2120047, type: 2}
   - {fileID: 11400000, guid: a9a23005fece24b4c86dfa62c6ff8ebc, type: 2}
   - {fileID: 11400000, guid: 9e1356fe6cd065642b0b10b3bdaca83a, type: 2}
+  - {fileID: 11400000, guid: 3b809e2d1214f0b48b77bc7e8ad7b1d5, type: 2}
+  - {fileID: 11400000, guid: 182e513c827d05c42ad6c4e98b642747, type: 2}
+  - {fileID: 11400000, guid: 0adc2674675ba46488ce4b3ecf54cccf, type: 2}
+  - {fileID: 11400000, guid: 7afcc287cb5923b43897684c4bdbb83a, type: 2}
+  - {fileID: 11400000, guid: 5c0bf32daa5d68c4795ac551e489ad78, type: 2}
+  - {fileID: 11400000, guid: fc31606364d845c409fc0cfe8ef1e928, type: 2}
+  - {fileID: 11400000, guid: d226a9628dcb8ef4896e4389c0ee19e2, type: 2}
+  - {fileID: 11400000, guid: 48a3955145eec4b43b87df86177ac6e7, type: 2}
+  - {fileID: 11400000, guid: edcf03c93466bd7439bfaf973c784637, type: 2}
+  - {fileID: 11400000, guid: fe49f36e947e4184f86a5c2ba53791bd, type: 2}
+  - {fileID: 11400000, guid: 05b0013a6a17411468d161c1229f714d, type: 2}
   audioSource: {fileID: 957454587}
   cardDeckParent: {fileID: 2067180826}
   cardButtonPrefab: {fileID: 8053910337103730126, guid: 03a6f6efd54519d47ba10dfa7c7928ad, type: 3}

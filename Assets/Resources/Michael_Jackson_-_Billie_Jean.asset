@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Michael_Jackson_-_Billie_Jean
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Billie Jean
+  artist: Michael Jackson
+  year: 1983
+  audioClip: {fileID: 8300000, guid: 33ed14cbad101ab4586c1252808a69d5, type: 3}
+  cardSprite: {fileID: 971409564656698803, guid: 2513ee9ee2beafe4987a9749a71d0eb3, type: 3}
+  genres: 0000000005000000

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: 2Pac ft. Dr. Dre - California Love
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: ' California Love'
+  artist: '2Pac ft. Dr. Dre '
+  year: 1995
+  audioClip: {fileID: 8300000, guid: 3272efc6d2464324eb07b9f2c546c8f3, type: 3}
+  cardSprite: {fileID: -8384562828863443810, guid: 417fe2c8940b4d94c9441b83eef62625, type: 3}
+  genres: 0200000005000000

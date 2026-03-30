@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: John Lennon - Imagine
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Imagine
+  artist: John Lennon
+  year: 1971
+  audioClip: {fileID: 8300000, guid: f6a250f4a52aa0846ab86412023a6df7, type: 3}
+  cardSprite: {fileID: 9023528558369119059, guid: 5340761e42781ad46b5b2f0781df93be, type: 3}
+  genres: 0100000005000000

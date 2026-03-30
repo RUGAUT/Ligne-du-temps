@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Aretha Franklin - Respect
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Respect
+  artist: Aretha Franklin
+  year: 1967
+  audioClip: {fileID: 8300000, guid: d4231449119c8c64d908e6a4e76ae864, type: 3}
+  cardSprite: {fileID: 8481012077423811905, guid: 244775ac123eb714c8860d4f416e59b2, type: 3}
+  genres: 0000000005000000

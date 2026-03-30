@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Led ZeppelinStairway to Heaven
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Stairway to Heaven
+  artist: 'Led Zeppelin '
+  year: 1971
+  audioClip: {fileID: 8300000, guid: 3272efc6d2464324eb07b9f2c546c8f3, type: 3}
+  cardSprite: {fileID: 3776780235895098199, guid: 3e6d112c88893e54a9d033caf50a9e2d, type: 3}
+  genres: 0100000005000000

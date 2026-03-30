@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: QueenBohemian Rhapsody
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: Bohemian Rhapsody
+  artist: Queen
+  year: 1975
+  audioClip: {fileID: 8300000, guid: 2f0d278b8b3fd924d8e4e545bbaaaeee, type: 3}
+  cardSprite: {fileID: 6597996031033158428, guid: 80a618d381ac07f428eb77e24ab5b466, type: 3}
+  genres: 0100000005000000
