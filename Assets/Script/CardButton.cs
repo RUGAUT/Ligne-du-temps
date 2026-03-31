@@ -25,26 +25,12 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         cardImage = GetComponent<Image>();
     }
 
-    // Corrigé : showInfo est utilisé pour décider d'afficher les textes ou non
     public void SetCard(SongData song, bool faceUp, bool showInfo = false)
     {
         _currentSong = song;
-
-        if (titleText != null)
-        {
-            titleText.text = song.title;
-            titleText.gameObject.SetActive(faceUp && showInfo);
-        }
-        if (artistText != null)
-        {
-            artistText.text = song.artist;
-            artistText.gameObject.SetActive(faceUp && showInfo);
-        }
-        if (yearText != null)
-        {
-            yearText.text = song.year.ToString();
-            yearText.gameObject.SetActive(faceUp && showInfo);
-        }
+        if (titleText != null) { titleText.text = song.title; titleText.gameObject.SetActive(faceUp && showInfo); }
+        if (artistText != null) { artistText.text = song.artist; artistText.gameObject.SetActive(faceUp && showInfo); }
+        if (yearText != null) { yearText.text = song.year.ToString(); yearText.gameObject.SetActive(faceUp && showInfo); }
 
         if (cardImage != null && song.cardSprite != null)
         {
@@ -55,36 +41,23 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
 
     public void SetPlayerIndex(int index) => playerIndex = index;
 
-    public void ShowAllText()
-    {
-        if (titleText != null) titleText.gameObject.SetActive(true);
-        if (artistText != null) artistText.gameObject.SetActive(true);
-        if (yearText != null) yearText.gameObject.SetActive(true);
-    }
-
     public void OnPointerClick(PointerEventData eventData)
     {
+        // Envoie l'ordre au GameManager de jouer ou d'arrêter cette chanson spécifique
         if (GameManager.Instance != null && _currentSong != null)
             GameManager.Instance.PlaySong(_currentSong);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // Empêche de déplacer une carte déjà placée sur le plateau
-        if (transform.parent != GameManager.Instance.cardDeckParent)
-        {
-            eventData.pointerDrag = null;
-            return;
-        }
-
+        if (transform.parent != GameManager.Instance.cardDeckParent) { eventData.pointerDrag = null; return; }
         initialPosition = rectTransform.anchoredPosition;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = 0.6f;
         transform.SetAsLastSibling();
     }
 
-    public void OnDrag(PointerEventData eventData) =>
-        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+    public void OnDrag(PointerEventData eventData) => rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
 
     public void OnEndDrag(PointerEventData eventData)
     {

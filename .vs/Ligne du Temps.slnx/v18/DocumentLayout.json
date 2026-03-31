@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "D:\\Projet Unity\\Ligne du Temps\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\dropzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\dropzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\cardbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\cardbutton.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\dropzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\dropzone.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\songdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\songdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\scenechanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\scenechanger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\projet unity\\ligne du temps\\assets\\script\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\script\\menumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,6 +36,30 @@
           "DockedWidth": 200,
           "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SceneChanger.cs",
+              "DocumentMoniker": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\SceneChanger.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\SceneChanger.cs",
+              "ToolTip": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\SceneChanger.cs",
+              "RelativeToolTip": "Assets\\Script\\SceneChanger.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T07:38:27.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MenuManager.cs",
+              "DocumentMoniker": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\MenuManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Script\\MenuManager.cs",
+              "ToolTip": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\MenuManager.cs",
+              "RelativeToolTip": "Assets\\Script\\MenuManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T07:38:19.708Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -43,13 +75,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "DropZone.cs",
               "DocumentMoniker": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\DropZone.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\DropZone.cs",
               "ToolTip": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\DropZone.cs",
               "RelativeToolTip": "Assets\\Script\\DropZone.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAiwGkAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAUwGwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-29T09:05:25.721Z",
               "EditorCaption": ""
@@ -62,20 +94,20 @@
               "RelativeDocumentMoniker": "Assets\\Script\\CardButton.cs",
               "ToolTip": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\CardButton.cs",
               "RelativeToolTip": "Assets\\Script\\CardButton.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAmwF8AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAUwEQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-29T09:05:21.895Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "GameManager.cs",
               "DocumentMoniker": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\GameManager.cs",
               "RelativeDocumentMoniker": "Assets\\Script\\GameManager.cs",
               "ToolTip": "D:\\Projet Unity\\Ligne du Temps\\Assets\\Script\\GameManager.cs",
               "RelativeToolTip": "Assets\\Script\\GameManager.cs",
-              "ViewState": "AgIAAM0AAAAAAAAAAAAIwNYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAALYAAAAAAAAAAAAUwN4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-29T08:53:04.043Z",
               "EditorCaption": ""

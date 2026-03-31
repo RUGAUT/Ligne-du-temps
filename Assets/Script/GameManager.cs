@@ -19,10 +19,11 @@ public class GameManager : MonoBehaviour
     public List<DropZone> player2DropZones;
     public int cardsPerPlayer = 5;
 
-    [Header("Debug & UI")]
+    [Header("UI & Feedback")]
     public bool isDebugMode = true;
     public TextMeshProUGUI player1ScoreText;
     public TextMeshProUGUI player2ScoreText;
+    public TextMeshProUGUI turnIndicatorText;
     public AudioClip validationSound;
     public AudioClip errorSound;
 
@@ -30,18 +31,15 @@ public class GameManager : MonoBehaviour
     public GameObject victoryPanel;
     public TextMeshProUGUI victoryText;
 
-    // NOUVEAU : Configuration des jetons
     [Header("Jetons (Tokens)")]
-    public int startingTokens = 2; // Nombre de jetons limités par partie
+    public int startingTokens = 2;
     private int player1Tokens;
     private int player2Tokens;
-    public TextMeshProUGUI player1TokenText; // UI pour afficher les jetons du Joueur 1
-    public TextMeshProUGUI player2TokenText; // UI pour afficher les jetons du Joueur 2
+    public TextMeshProUGUI player1TokenText;
+    public TextMeshProUGUI player2TokenText;
 
     private List<SongData> player1Deck = new List<SongData>();
     private List<SongData> player2Deck = new List<SongData>();
-    private bool firstCardPlayer1 = true;
-    private bool firstCardPlayer2 = true;
 
     void Awake()
     {
@@ -53,7 +51,6 @@ public class GameManager : MonoBehaviour
     {
         if (victoryPanel != null) victoryPanel.SetActive(false);
 
-        // NOUVEAU : Initialisation des jetons
         player1Tokens = startingTokens;
         player2Tokens = startingTokens;
         UpdateTokenUI();
@@ -61,6 +58,8 @@ public class GameManager : MonoBehaviour
         DivideSongsBetweenPlayers();
         InitializeDropZones();
         UpdateScoreUI();
+
+        // J1 commence, mais sans jouer de musique automatiquement
         DrawCardForPlayer(0);
     }
 
@@ -92,14 +91,28 @@ public class GameManager : MonoBehaviour
             if (i < s2.Count) player2DropZones[i].Initialize(s2[i].year, 1, i);
             else player2DropZones[i].gameObject.SetActive(false);
         }
+
+        player1Deck.Clear();
+        player2Deck.Clear();
     }
 
     public void DrawCardForPlayer(int playerIndex)
     {
+        UpdateTurnUI(playerIndex);
+
         List<SongData> currentDeck = (playerIndex == 0) ? player1Deck : player2Deck;
+        List<DropZone> currentZones = (playerIndex == 0) ? player1DropZones : player2DropZones;
+
+        // PIOCHE INTELLIGENTE
         if (currentDeck.Count == 0)
         {
-            currentDeck.AddRange(allSongs.OrderBy(x => Random.value).Take(3));
+            List<int> neededYears = currentZones.Where(z => !z.isOccupied).Select(z => z.targetYear).ToList();
+            var validSongs = allSongs
+                .Where(s => neededYears.Contains(s.year) && (GameSettings.SelectedGenre == MusicGenre.All || s.genres.Contains(GameSettings.SelectedGenre)))
+                .OrderBy(x => Random.value).Take(3).ToList();
+
+            if (validSongs.Count > 0) currentDeck.AddRange(validSongs);
+            else currentDeck.AddRange(allSongs.OrderBy(x => Random.value).Take(3));
         }
 
         SongData card = currentDeck[0];
@@ -107,106 +120,101 @@ public class GameManager : MonoBehaviour
 
         GameObject cardGO = Instantiate(cardButtonPrefab, cardDeckParent);
         CardButton cb = cardGO.GetComponent<CardButton>();
-        bool isFirst = (playerIndex == 0 && firstCardPlayer1) || (playerIndex == 1 && firstCardPlayer2);
-
-        cb.SetCard(card, true, isFirst);
-        if (playerIndex == 0) firstCardPlayer1 = false; else firstCardPlayer2 = false;
+        cb.SetCard(card, true, false); // Infos masquées au début
         cb.SetPlayerIndex(playerIndex);
+
+        // NOTE : On ne joue PAS la musique ici, on attend le clic du joueur.
     }
 
-    // NOUVEAU : Fonction appelée quand un joueur utilise un jeton
+    private void UpdateTurnUI(int playerIndex)
+    {
+        if (turnIndicatorText != null)
+        {
+            turnIndicatorText.text = $"TOUR DU JOUEUR {playerIndex + 1}";
+            turnIndicatorText.color = (playerIndex == 0) ? new Color(0.2f, 0.6f, 1f) : new Color(1f, 0.4f, 0.4f);
+        }
+    }
+
+    public void PlaySong(SongData song)
+    {
+        if (song?.audioClip != null && audioSource != null)
+        {
+            // TOGGLE : Si c'est la même musique, on l'arrête. Sinon on joue la nouvelle.
+            if (audioSource.clip == song.audioClip && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+            else
+            {
+                audioSource.clip = song.audioClip;
+                audioSource.Play();
+            }
+        }
+    }
+
     public void UseToken(int playerIndex)
     {
-        // 1. Vérifier si le joueur a encore des jetons
         if (playerIndex == 0 && player1Tokens <= 0) return;
         if (playerIndex == 1 && player2Tokens <= 0) return;
 
-        // 2. Trouver la carte actuellement en jeu pour ce joueur dans la zone de pioche
-        CardButton currentCard = cardDeckParent.GetComponentsInChildren<CardButton>()
-            .FirstOrDefault(c => c.playerIndex == playerIndex);
+        CardButton currentCard = cardDeckParent.GetComponentsInChildren<CardButton>().FirstOrDefault(c => c.playerIndex == playerIndex);
+        if (currentCard == null) return;
 
-        if (currentCard == null) return; // Pas de carte à remplacer
+        SongData replacement = allSongs
+            .Where(s => s.year == currentCard.currentSong.year && s != currentCard.currentSong && (GameSettings.SelectedGenre == MusicGenre.All || s.genres.Contains(GameSettings.SelectedGenre)))
+            .OrderBy(x => Random.value).FirstOrDefault();
 
-        int targetYear = currentCard.currentSong.year;
-
-        // 3. Chercher une nouvelle chanson de la même année, mais différente de l'actuelle
-        SongData replacementSong = allSongs
-            .Where(s =>
-                s.year == targetYear &&
-                s != currentCard.currentSong &&
-                (GameSettings.SelectedGenre == MusicGenre.All || (s.genres != null && s.genres.Contains(GameSettings.SelectedGenre)))
-            )
-            .OrderBy(x => Random.value) // Aléatoire s'il y en a plusieurs
-            .FirstOrDefault();
-
-        // 4. Appliquer le remplacement si on trouve une chanson
-        if (replacementSong != null)
+        if (replacement != null)
         {
-            // Déduire le jeton
-            if (playerIndex == 0) player1Tokens--;
-            else player2Tokens--;
-
-            // Mettre à jour la carte existante (on garde showInfo à true pour qu'il puisse voir/entendre)
-            currentCard.SetCard(replacementSong, true, true);
-
-            // Lancer la nouvelle musique automatiquement (optionnel, mais sympa pour le feedback)
-            PlaySong(replacementSong);
-
-            // Mettre à jour l'affichage des jetons
+            if (playerIndex == 0) player1Tokens--; else player2Tokens--;
+            currentCard.SetCard(replacement, true, false);
             UpdateTokenUI();
-        }
-        else
-        {
-            Debug.LogWarning("Joker échoué : Aucune autre chanson trouvée pour l'année " + targetYear);
+            audioSource.Stop(); // On arrête la musique de l'ancienne carte
         }
     }
 
-    // NOUVEAU : Mettre à jour l'interface des jetons
     private void UpdateTokenUI()
     {
-        if (player1TokenText != null) player1TokenText.text = $"Jetons J1: {player1Tokens}";
-        if (player2TokenText != null) player2TokenText.text = $"Jetons J2: {player2Tokens}";
+        if (player1TokenText != null) player1TokenText.text = $"Jokers J1: {player1Tokens}";
+        if (player2TokenText != null) player2TokenText.text = $"Jokers J2: {player2Tokens}";
     }
 
     public void HandleCorrectPlacement(int playerIndex)
     {
-        if (validationSound != null && audioSource != null)
-            audioSource.PlayOneShot(validationSound);
+        audioSource.Stop(); // Arrête la musique dès qu'on a fini le tour
+        if (validationSound != null) audioSource.PlayOneShot(validationSound);
         UpdateScoreUI();
         CheckVictory();
     }
 
     public void HandleWrongPlacement()
     {
-        if (errorSound != null && audioSource != null)
-            audioSource.PlayOneShot(errorSound);
+        audioSource.Stop();
+        if (errorSound != null) audioSource.PlayOneShot(errorSound);
     }
 
     private void UpdateScoreUI()
     {
-        int p1Count = player1DropZones.Count(z => z.isOccupied);
-        int p2Count = player2DropZones.Count(z => z.isOccupied);
-        if (player1ScoreText != null) player1ScoreText.text = $"J1: {p1Count}/{cardsPerPlayer}";
-        if (player2ScoreText != null) player2ScoreText.text = $"J2: {p2Count}/{cardsPerPlayer}";
+        int p1 = player1DropZones.Count(z => z.isOccupied);
+        int p2 = player2DropZones.Count(z => z.isOccupied);
+        if (player1ScoreText != null) player1ScoreText.text = $"J1: {p1}/{cardsPerPlayer}";
+        if (player2ScoreText != null) player2ScoreText.text = $"J2: {p2}/{cardsPerPlayer}";
     }
 
     private void CheckVictory()
     {
-        int p1Count = player1DropZones.Count(z => z.isOccupied);
-        int p2Count = player2DropZones.Count(z => z.isOccupied);
-        if (p1Count >= cardsPerPlayer) TriggerVictory(0);
-        else if (p2Count >= cardsPerPlayer) TriggerVictory(1);
+        if (player1DropZones.Count(z => z.isOccupied) >= cardsPerPlayer) TriggerVictory(0);
+        else if (player2DropZones.Count(z => z.isOccupied) >= cardsPerPlayer) TriggerVictory(1);
     }
 
     public void TriggerVictory(int winnerIndex)
     {
         if (victoryPanel != null) victoryPanel.SetActive(true);
-        if (victoryText != null) victoryText.text = $"JOUEUR {winnerIndex + 1} A GAGNÉ !";
+        if (turnIndicatorText != null) turnIndicatorText.gameObject.SetActive(false);
+        if (victoryText != null) victoryText.text = $"VICTOIRE DU JOUEUR {winnerIndex + 1} !";
     }
 
-    public void PlaySong(SongData song) { if (song?.audioClip != null) { audioSource.clip = song.audioClip; audioSource.Play(); } }
     public void RestartGame() => SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    public void AddCardToPlayer(SongData s, int p, int d) { }
 
     void Update()
     {

@@ -9,17 +9,19 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public int orderIndex;
     public bool isOccupied = false;
 
+    // Rendu public pour que le GameManager puisse lire la date nécessaire
+    public int targetYear;
+
     [Header("UI")]
     public TMPro.TextMeshProUGUI dateText;
     public GameObject defaultDateText;
 
     [Header("Feedback")]
-    public GameObject vfxObject; // Succès
-    public GameObject errorVfxObject; // Échec (ex: croix rouge)
+    public GameObject vfxObject;
+    public GameObject errorVfxObject;
 
     private Image image;
     private Color originalColor;
-    private int targetYear;
 
     void Awake()
     {
@@ -46,7 +48,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             if (card.currentSong.year == targetYear)
             {
-                // RÉUSSITE
+                // REUSSITE : On instancie la carte et on affiche ses infos
                 GameObject cardGO = Instantiate(card.gameObject, transform);
                 CardButton newCard = cardGO.GetComponent<CardButton>();
                 newCard.SetCard(card.currentSong, true, true);
@@ -62,7 +64,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             }
             else
             {
-                // ÉCHEC
+                // ECHEC
                 GameManager.Instance.HandleWrongPlacement();
                 StartCoroutine(ShakeDropZone());
                 if (errorVfxObject != null)
@@ -72,6 +74,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                 }
             }
 
+            // Passage au tour suivant et destruction de la carte piochee
             GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
             Destroy(eventData.pointerDrag);
         }
@@ -84,16 +87,15 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         float elapsed = 0f;
         while (elapsed < 0.3f)
         {
-            float x = Random.Range(-8f, 8f);
-            float y = Random.Range(-8f, 8f);
-            transform.localPosition = new Vector3(originalPos.x + x, originalPos.y + y, originalPos.z);
+            transform.localPosition = originalPos + (Vector3)Random.insideUnitCircle * 8f;
             elapsed += Time.deltaTime;
             yield return null;
         }
         transform.localPosition = originalPos;
     }
 
-    private void HideVFX() { if (vfxObject != null) vfxObject.SetActive(false); }
+    private void HideVFX() => vfxObject.SetActive(false);
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)
@@ -102,5 +104,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
             image.color = (cb && cb.playerIndex == playerIndex && !isOccupied) ? Color.green : Color.red;
         }
     }
+
     public void OnPointerExit(PointerEventData eventData) => image.color = originalColor;
 }
