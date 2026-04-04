@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7dffaea1f659449a2ca50a684c2fce, type: 3}
+  m_Name: Petula Clark
+  m_EditorClassIdentifier: Assembly-CSharp::SongData
+  title: 'Downtown '
+  artist: Tony Hatch
+  year: 1964
+  audioClip: {fileID: 8300000, guid: 6276f665183ba8f4e9e89cb95f55c03b, type: 3}
+  cardSprite: {fileID: 532282208441007744, guid: 96c87c75ebf7d5e499d325c24909265a, type: 3}
+  genres: 0000000005000000

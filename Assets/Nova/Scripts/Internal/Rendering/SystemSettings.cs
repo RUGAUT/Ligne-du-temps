@@ -51,7 +51,7 @@ namespace Nova.Internal.Rendering
         {
             ref SettingsData settingsData = ref Settings.Data;
             settingsData.ColorSpace = QualitySettings.activeColorSpace;
-            settingsData.UsingScriptableRenderPipeline = GraphicsSettings.renderPipelineAsset != null;
+            settingsData.UsingScriptableRenderPipeline = GraphicsSettings.defaultRenderPipeline != null;
             settingsData.UseFallbackRendering = SystemInfo.maxComputeBufferInputsVertex < 4;
             settingsData.NewTMP = UnityVersionUtils.NewTMP;
         }

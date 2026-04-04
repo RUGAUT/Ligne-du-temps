@@ -778,7 +778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 857, y: -103}
+  m_AnchoredPosition: {x: 839, y: -103}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &78574256
@@ -4721,7 +4721,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 867, y: 480}
+  m_AnchoredPosition: {x: 848.99994, y: 480}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &876346170
@@ -5672,6 +5672,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: edcf03c93466bd7439bfaf973c784637, type: 2}
   - {fileID: 11400000, guid: fe49f36e947e4184f86a5c2ba53791bd, type: 2}
   - {fileID: 11400000, guid: 05b0013a6a17411468d161c1229f714d, type: 2}
+  - {fileID: 11400000, guid: edcbcd83907a88d4695d336e17cd5cde, type: 2}
+  - {fileID: 11400000, guid: 59aa390f910e48749b3c6a05d7b3323d, type: 2}
+  - {fileID: 11400000, guid: 3ea293dad69179a4cbd97bd4513dbbd2, type: 2}
+  - {fileID: 11400000, guid: c0b5bd599e7d25145a8ccb3334fee1f6, type: 2}
+  - {fileID: 11400000, guid: f9d690def5f7c2c4fb96db0a93f71dfe, type: 2}
+  - {fileID: 11400000, guid: f74d18c7adc0e704082da1031dc3d7a5, type: 2}
+  - {fileID: 11400000, guid: b853cb1aa6291d24f899640de37b1ee5, type: 2}
   audioSource: {fileID: 957454587}
   cardDeckParent: {fileID: 2067180826}
   cardButtonPrefab: {fileID: 8053910337103730126, guid: 03a6f6efd54519d47ba10dfa7c7928ad, type: 3}

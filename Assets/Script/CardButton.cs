@@ -63,7 +63,17 @@ public class CardButton : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     {
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
-        if (eventData.pointerEnter == null || eventData.pointerEnter.GetComponent<DropZone>() == null)
+
+        // On récupère la DropZone sous la souris (s'il y en a une)
+        DropZone dropZone = eventData.pointerEnter != null ? eventData.pointerEnter.GetComponent<DropZone>() : null;
+
+        // La carte DOIT retourner à sa place si :
+        // 1. On n'est pas au-dessus d'une DropZone
+        // 2. OU la DropZone appartient à l'adversaire
+        // 3. OU la DropZone est déjà occupée par une autre carte
+        if (dropZone == null || dropZone.playerIndex != this.playerIndex || dropZone.isOccupied)
+        {
             rectTransform.anchoredPosition = initialPosition;
+        }
     }
 }
