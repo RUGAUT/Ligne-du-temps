@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Spring Waltz
   artist: Yiruma
   year: 2011
-  audioClip: {fileID: 8300000, guid: 8243bc0f5e178004c938431c4ac8aacb, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 8243bc0f5e178004c938431c4ac8aacb, type: 3}
   cardSprite: {fileID: 1797764137301760914, guid: 51d2016e86c6f83459dfc9ec07d78fd2, type: 3}
   genres: 05000000

@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Stairway to Heaven
   artist: 'Led Zeppelin '
   year: 1971
-  audioClip: {fileID: 8300000, guid: 3272efc6d2464324eb07b9f2c546c8f3, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 1ec6cafd196fae84f85754d758cb4bbf, type: 3}
   cardSprite: {fileID: 3776780235895098199, guid: 3e6d112c88893e54a9d033caf50a9e2d, type: 3}
   genres: 0100000005000000

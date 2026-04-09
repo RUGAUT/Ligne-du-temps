@@ -15,6 +15,7 @@ MonoBehaviour:
   title: 'Nightcall '
   artist: 'Kavinsky '
   year: 2010
-  audioClip: {fileID: 8300000, guid: 666636c5f27b49c4a90b9c71d5c703c2, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 666636c5f27b49c4a90b9c71d5c703c2, type: 3}
   cardSprite: {fileID: -3024828070601110199, guid: ad9f864f9578ea54eb88a52e6c3234c2, type: 3}
   genres: 0400000005000000

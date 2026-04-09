@@ -281,6 +281,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "cz.omnibullet.fluidsynth-unity": {
+      "version": "file:cz.omnibullet.fluidsynth-unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",
       "depth": 0,

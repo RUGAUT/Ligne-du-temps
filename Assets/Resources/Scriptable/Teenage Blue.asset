@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Teenage Blue
   artist: Dreamgirl
   year: 2015
-  audioClip: {fileID: 8300000, guid: c0186303c5ca7be459c4d617e2bbf40a, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: c0186303c5ca7be459c4d617e2bbf40a, type: 3}
   cardSprite: {fileID: 9148775879308657816, guid: e4d761d26f34238409f20709fa964374, type: 3}
   genres: 0000000005000000

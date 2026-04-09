@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Billie Jean
   artist: Michael Jackson
   year: 1983
-  audioClip: {fileID: 8300000, guid: 33ed14cbad101ab4586c1252808a69d5, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 33ed14cbad101ab4586c1252808a69d5, type: 3}
   cardSprite: {fileID: 971409564656698803, guid: 2513ee9ee2beafe4987a9749a71d0eb3, type: 3}
   genres: 0000000005000000

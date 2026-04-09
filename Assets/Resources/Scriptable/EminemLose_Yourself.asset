@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Lose Yourself
   artist: Eminem
   year: 2002
-  audioClip: {fileID: 8300000, guid: f6cea738c33f3aa41872a2b3e1fc6c38, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: f6cea738c33f3aa41872a2b3e1fc6c38, type: 3}
   cardSprite: {fileID: -5437682132839701531, guid: 04ce48ed3ba04ca4d80a7c14f82ed26e, type: 3}
   genres: 0200000005000000

@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Fight the Power
   artist: Public Enemy
   year: 1990
-  audioClip: {fileID: 8300000, guid: a8032004d37182447813a50ee625544d, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: a8032004d37182447813a50ee625544d, type: 3}
   cardSprite: {fileID: 1287028603274444203, guid: dded5ec1c6050ea489f5fab051b66166, type: 3}
   genres: 0200000005000000

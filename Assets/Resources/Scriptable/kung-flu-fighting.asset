@@ -15,6 +15,7 @@ MonoBehaviour:
   title: 'Kung Fu Fighting '
   artist: Carl Douglas
   year: 1974
-  audioClip: {fileID: 8300000, guid: 2c4513aaae4c8ce4583239b506c603b6, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 2c4513aaae4c8ce4583239b506c603b6, type: 3}
   cardSprite: {fileID: -1071729156107192906, guid: 5b839677468ff104c92de64dca794823, type: 3}
   genres: 05000000

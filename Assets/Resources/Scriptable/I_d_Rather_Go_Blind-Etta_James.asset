@@ -15,6 +15,7 @@ MonoBehaviour:
   title: "I\u2019d Rather Go Blind "
   artist: 'Etta James '
   year: 1968
-  audioClip: {fileID: 8300000, guid: ae349e7569b962a489233503b2a85bbc, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: ae349e7569b962a489233503b2a85bbc, type: 3}
   cardSprite: {fileID: -2300198211680773192, guid: 8b9b96d3fbd2fe741a00069d466af0cc, type: 3}
   genres: 05000000

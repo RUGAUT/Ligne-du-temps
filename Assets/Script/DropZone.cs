@@ -9,7 +9,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
     public int orderIndex;
     public bool isOccupied = false;
 
-    // Rendu public pour que le GameManager puisse lire la date nécessaire
     public int targetYear;
 
     [Header("UI")]
@@ -48,7 +47,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
         {
             if (card.currentSong.year == targetYear)
             {
-                // REUSSITE : On instancie la carte et on affiche ses infos
+                // REUSSITE
                 GameObject cardGO = Instantiate(card.gameObject, transform);
                 CardButton newCard = cardGO.GetComponent<CardButton>();
                 newCard.SetCard(card.currentSong, true, true);
@@ -61,6 +60,10 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                 if (defaultDateText != null) defaultDateText.SetActive(false);
                 GameManager.Instance.HandleCorrectPlacement(playerIndex);
                 if (vfxObject != null) { vfxObject.SetActive(true); Invoke("HideVFX", 2.0f); }
+
+                // Tour suivant et destruction de la carte
+                GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
+                Destroy(eventData.pointerDrag);
             }
             else
             {
@@ -72,11 +75,16 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
                     GameObject evfx = Instantiate(errorVfxObject, transform.position, Quaternion.identity, transform);
                     Destroy(evfx, 1.5f);
                 }
-            }
 
-            // Passage au tour suivant et destruction de la carte piochee
-            GameManager.Instance.DrawCardForPlayer(1 - playerIndex);
-            Destroy(eventData.pointerDrag);
+                // Remet la chanson dans la pioche du joueur actuel
+                GameManager.Instance.ReturnCardToPile(card.currentSong, card.playerIndex);
+
+                // Le même joueur pioche une nouvelle carte
+                GameManager.Instance.DrawCardForPlayer(card.playerIndex);
+
+                // Détruit la mauvaise carte
+                Destroy(eventData.pointerDrag);
+            }
         }
         image.color = originalColor;
     }

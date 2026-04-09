@@ -15,6 +15,7 @@ MonoBehaviour:
   title: La bamba
   artist: ' Selena'
   year: 1987
-  audioClip: {fileID: 8300000, guid: 7ee2218948d54e048ad4f5dafdcc2774, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 7ee2218948d54e048ad4f5dafdcc2774, type: 3}
   cardSprite: {fileID: 1887688325252674505, guid: 4e67643df44afbe4f90a1bd205ac484f, type: 3}
   genres: 0000000005000000

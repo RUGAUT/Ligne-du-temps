@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Derek and the Dominos
   artist: Layla
   year: 1970
-  audioClip: {fileID: 8300000, guid: a175c349b83b37e48bf17311d980098b, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 069e3c31a4d219145b33b6456728e72d, type: 3}
   cardSprite: {fileID: 2689747940527453610, guid: 69e4527e727e8364f8322c37af542f23, type: 3}
   genres: 0100000005000000

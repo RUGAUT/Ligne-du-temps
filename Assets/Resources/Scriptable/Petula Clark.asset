@@ -15,6 +15,7 @@ MonoBehaviour:
   title: 'Downtown '
   artist: Tony Hatch
   year: 1964
-  audioClip: {fileID: 8300000, guid: 6276f665183ba8f4e9e89cb95f55c03b, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 6276f665183ba8f4e9e89cb95f55c03b, type: 3}
   cardSprite: {fileID: 532282208441007744, guid: 96c87c75ebf7d5e499d325c24909265a, type: 3}
   genres: 0000000005000000

@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Bohemian Rhapsody
   artist: Queen
   year: 1975
-  audioClip: {fileID: 8300000, guid: c32a2c7a52340ac49ae1807a7069d08e, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: c32a2c7a52340ac49ae1807a7069d08e, type: 3}
   cardSprite: {fileID: 6597996031033158428, guid: 80a618d381ac07f428eb77e24ab5b466, type: 3}
   genres: 0100000005000000

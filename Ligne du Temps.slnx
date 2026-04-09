@@ -3,5 +3,7 @@
   <Project Path="Nova.Editor.csproj" />
   <Project Path="Nova.UIControls.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="cz.omnibullet.FluidSynthUnity.csproj" />
   <Project Path="Nova.UIControls.Editor.csproj" />
+  <Project Path="MonProjetScripts.csproj" />
 </Solution>

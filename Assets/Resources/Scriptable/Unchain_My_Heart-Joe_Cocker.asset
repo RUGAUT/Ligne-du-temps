@@ -15,6 +15,7 @@ MonoBehaviour:
   title: 'Unchain My Heart '
   artist: Joe Cocker
   year: 1987
-  audioClip: {fileID: 8300000, guid: 10f5b60d6130d894e88d0e2ba600dd39, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 10f5b60d6130d894e88d0e2ba600dd39, type: 3}
   cardSprite: {fileID: -1145216314911993112, guid: 36607d714dbbd234796852f86038bbcb, type: 3}
   genres: 0100000005000000

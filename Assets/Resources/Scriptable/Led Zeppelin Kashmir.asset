@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Kashmir
   artist: Led Zeppelin
   year: 1975
-  audioClip: {fileID: 8300000, guid: 7761527d29854a540a88d4872ac0ec3e, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 7761527d29854a540a88d4872ac0ec3e, type: 3}
   cardSprite: {fileID: -8384562828863443810, guid: 417fe2c8940b4d94c9441b83eef62625, type: 3}
   genres: 0200000005000000

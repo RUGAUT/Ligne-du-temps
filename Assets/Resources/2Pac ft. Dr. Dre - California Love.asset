@@ -15,6 +15,7 @@ MonoBehaviour:
   title: ' California Love'
   artist: '2Pac ft. Dr. Dre '
   year: 1995
-  audioClip: {fileID: 8300000, guid: 3272efc6d2464324eb07b9f2c546c8f3, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 3272efc6d2464324eb07b9f2c546c8f3, type: 3}
   cardSprite: {fileID: -8384562828863443810, guid: 417fe2c8940b4d94c9441b83eef62625, type: 3}
   genres: 0200000005000000

@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Imagine
   artist: John Lennon
   year: 1971
-  audioClip: {fileID: 8300000, guid: f6a250f4a52aa0846ab86412023a6df7, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: f6a250f4a52aa0846ab86412023a6df7, type: 3}
   cardSprite: {fileID: 9023528558369119059, guid: 5340761e42781ad46b5b2f0781df93be, type: 3}
   genres: 0100000005000000

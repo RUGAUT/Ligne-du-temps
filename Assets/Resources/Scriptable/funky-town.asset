@@ -15,6 +15,7 @@ MonoBehaviour:
   title: 'Funkytown '
   artist: Lipps Inc.
   year: 1979
-  audioClip: {fileID: 8300000, guid: d50c2809d8b8cb54bbbe82193b101175, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: d50c2809d8b8cb54bbbe82193b101175, type: 3}
   cardSprite: {fileID: 9138264725174098893, guid: 0d51f2ef0dc4a934884b10a77b5ab7cf, type: 3}
   genres: 0000000005000000

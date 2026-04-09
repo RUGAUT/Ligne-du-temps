@@ -15,6 +15,7 @@ MonoBehaviour:
   title: I Wanna Dance With Somebody
   artist: Whitney Houston
   year: 1987
-  audioClip: {fileID: 8300000, guid: 0499273be1693114cabbe588eda78c8e, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 0499273be1693114cabbe588eda78c8e, type: 3}
   cardSprite: {fileID: -3024828070601110199, guid: eed9a66e8f767be4098eb63f2fec3bf6, type: 3}
   genres: 0000000005000000

@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Hotel California K
   artist: THE EAGLES
   year: 1976
-  audioClip: {fileID: 8300000, guid: fb4b090b2c68ba04a82662fc80a4a21e, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: fb4b090b2c68ba04a82662fc80a4a21e, type: 3}
   cardSprite: {fileID: 4942877971302151637, guid: 30fe27f699802644ab6a259bf512105f, type: 3}
   genres: 0100000005000000

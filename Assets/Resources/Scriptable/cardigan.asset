@@ -15,6 +15,7 @@ MonoBehaviour:
   title: cardigan
   artist: Taylor Swift
   year: 2020
-  audioClip: {fileID: 8300000, guid: 4d4471063a5bd344996ad1814a3f29e6, type: 3}
+  midiFileName: 
+  previewAudio: {fileID: 8300000, guid: 4d4471063a5bd344996ad1814a3f29e6, type: 3}
   cardSprite: {fileID: 6963322998463068953, guid: 38ecfae3a127d394aaa224287b2b55ba, type: 3}
   genres: 0000000005000000

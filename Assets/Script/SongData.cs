@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic; // NOUVEAU : Nécessaire pour utiliser les Listes
+using System.Collections.Generic;
 
 public enum MusicGenre { Pop, Rock, Rap, Jazz, Electro, All }
 
@@ -9,9 +9,15 @@ public class SongData : ScriptableObject
     public string title;
     public string artist;
     public int year;
-    public AudioClip audioClip;
-    public Sprite cardSprite;
 
-    // NOUVEAU : Une liste pour cocher plusieurs genres dans l'inspecteur
+    [Header("Audio (Hybrid System)")]
+    [Tooltip("Nom du fichier MIDI dans StreamingAssets (ex: hit.mid)")]
+    public string midiFileName;
+
+    [Tooltip("Fichier MP3/WAV à utiliser si le MIDI est absent")]
+    public AudioClip previewAudio;
+
+    [Header("Visuals")]
+    public Sprite cardSprite;
     public List<MusicGenre> genres;
 }
