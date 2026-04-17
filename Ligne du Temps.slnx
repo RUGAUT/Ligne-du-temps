@@ -3,7 +3,9 @@
   <Project Path="Nova.Editor.csproj" />
   <Project Path="Nova.UIControls.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="cz.omnibullet.FluidSynthUnity.csproj" />
+  <Project Path="MidiPlayer.Editor.csproj" />
+  <Project Path="MidiPlayer.Demo.csproj" />
+  <Project Path="MidiPlayer.Run.csproj" />
   <Project Path="Nova.UIControls.Editor.csproj" />
-  <Project Path="MonProjetScripts.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>

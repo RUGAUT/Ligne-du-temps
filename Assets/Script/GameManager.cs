@@ -5,8 +5,11 @@ using System.Linq;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using FluidSynthUnity;
-using FluidSynth;
+using System; // Nécessaire pour string.IsNullOrEmpty
+
+// --- IMPORTATION MAESTRO ---
+using MidiPlayerTK;
+// ---------------------------
 
 public class GameManager : MonoBehaviour
 {
@@ -21,10 +24,14 @@ public class GameManager : MonoBehaviour
     public int cardsPerPlayer = 5;
 
     [Header("Audio Setup")]
-    public MidiSynthBehavior synthBehavior;
     public AudioSource fxSource;
+    public AudioSource musicSource;
+
+    [Header("Maestro Integration")]
+    [Tooltip("Glisse ici le prefab 'MidiFilePlayer' présent dans ta scène")]
+    public MidiFilePlayer midiFilePlayer;
+
     private SongData currentlyPlayingSong;
-    private MPTKEvent currentMidiEvent;
 
     [Header("UI & Feedback")]
     public bool isDebugMode = true;
@@ -46,7 +53,6 @@ public class GameManager : MonoBehaviour
     private List<SongData> player1Deck = new List<SongData>();
     private List<SongData> player2Deck = new List<SongData>();
 
-    // Pioches spécifiques à chaque joueur (ne contient QUE les musiques qui correspondent aux dropzones)
     private List<SongData> player1DrawPile = new List<SongData>();
     private List<SongData> player2DrawPile = new List<SongData>();
 
@@ -59,6 +65,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (victoryPanel != null) victoryPanel.SetActive(false);
+
+        // Sécurité : si on n'a pas assigné le prefab dans l'inspecteur, on essaie de le trouver automatiquement
+        if (midiFilePlayer == null)
+        {
+            midiFilePlayer = FindObjectOfType<MidiFilePlayer>();
+            if (midiFilePlayer == null) Debug.LogWarning("Maestro MidiFilePlayer introuvable dans la scène !");
+        }
+
         player1Tokens = player2Tokens = startingTokens;
         UpdateTokenUI();
         DivideSongsBetweenPlayers();
@@ -67,7 +81,6 @@ public class GameManager : MonoBehaviour
         DrawCardForPlayer(0);
     }
 
-    // --- FONCTION : Filtrer les musiques selon le choix du menu ---
     private List<SongData> GetFilteredSongs()
     {
         if (GameSettings.SelectedGenre == MusicGenre.All) return allSongs;
@@ -84,45 +97,76 @@ public class GameManager : MonoBehaviour
         return filtered;
     }
 
+    // --- MÉTHODES AUDIO INTÉGRÉES AVEC MAESTRO (MidiPlayerTK) ---
+
     public void PlaySong(SongData song)
     {
         if (song == null) return;
-        if (currentlyPlayingSong == song) { StopAllMusic(); return; }
 
+        // Toggle : Si on reclique sur la même chanson, on arrête
+        if (currentlyPlayingSong == song)
+        {
+            StopAllMusic();
+            return;
+        }
+
+        // 1. Arrêter tout ce qui joue actuellement
         StopAllMusic();
         currentlyPlayingSong = song;
 
-        if (synthBehavior != null && !string.IsNullOrEmpty(song.midiFileName))
+        // 2. PRIORITÉ MIDI
+        if (!string.IsNullOrEmpty(song.midiFileName))
         {
-            currentMidiEvent = synthBehavior.PlayNote((Tone)60, (0, 0), duration: -1, velocity: 100);
+            Debug.Log($"[Maestro] Lecture MIDI : {song.midiFileName}");
+
+            if (midiFilePlayer != null)
+            {
+                midiFilePlayer.MPTK_MidiName = song.midiFileName;
+                midiFilePlayer.MPTK_Play();
+            }
+            else
+            {
+                Debug.LogError("Maestro MidiFilePlayer est null ! Vérifie le prefab dans la scène.");
+            }
+
+            return;
         }
-        else if (song.previewAudio != null && fxSource != null)
+
+        // 3. FALLBACK MP3
+        if (song.previewAudio != null && musicSource != null)
         {
-            fxSource.clip = song.previewAudio;
-            fxSource.loop = true;
-            fxSource.Play();
+            musicSource.clip = song.previewAudio;
+            musicSource.loop = true;
+            musicSource.Play();
+            Debug.Log($"[Audio] Lecture MP3 : {song.title}");
         }
     }
 
     public void StopAllMusic()
     {
-        if (synthBehavior != null && currentMidiEvent != null)
+        // Arrêter MP3
+        if (musicSource != null)
         {
-            synthBehavior.StopEvent(currentMidiEvent);
-            currentMidiEvent = null;
+            musicSource.Stop();
+            musicSource.clip = null;
         }
-        if (fxSource != null && currentlyPlayingSong != null && fxSource.clip == currentlyPlayingSong.previewAudio)
+
+        // Arrêter MIDI via Maestro
+        if (midiFilePlayer != null)
         {
-            fxSource.Stop();
-            fxSource.clip = null;
+            midiFilePlayer.MPTK_Stop();
         }
+
         currentlyPlayingSong = null;
     }
+    // --------------------------------------------------------------
+
 
     private void DivideSongsBetweenPlayers()
     {
         List<SongData> songsToUse = GetFilteredSongs();
-        List<SongData> rnd = songsToUse.OrderBy(x => Random.value).ToList();
+        // CORRECTION ICI : UnityEngine.Random pour éviter l'ambiguïté
+        List<SongData> rnd = songsToUse.OrderBy(x => UnityEngine.Random.value).ToList();
 
         if (rnd.Count < cardsPerPlayer * 2)
             cardsPerPlayer = Mathf.Max(1, rnd.Count / 2);
@@ -136,7 +180,6 @@ public class GameManager : MonoBehaviour
         var s1 = player1Deck.OrderBy(s => s.year).ToList();
         var s2 = player2Deck.OrderBy(s => s.year).ToList();
 
-        // --- INITIALISATION JOUEUR 1 ---
         for (int i = 0; i < player1DropZones.Count; i++)
         {
             if (i < s1.Count)
@@ -146,11 +189,10 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                player1DropZones[i].gameObject.SetActive(false); // Désactive les zones en trop
+                player1DropZones[i].gameObject.SetActive(false);
             }
         }
 
-        // --- INITIALISATION JOUEUR 2 ---
         for (int i = 0; i < player2DropZones.Count; i++)
         {
             if (i < s2.Count)
@@ -160,15 +202,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                player2DropZones[i].gameObject.SetActive(false); // Désactive les zones en trop
+                player2DropZones[i].gameObject.SetActive(false);
             }
         }
 
-        // --- CREATION DES PIOCHES CORRESPONDANTES AUX DATES ---
         player1DrawPile.Clear();
         player2DrawPile.Clear();
 
-        // On crée une liste temporaire pour ne pas donner la même chanson aux deux joueurs
         List<SongData> availableSongsForPiles = new List<SongData>(GetFilteredSongs());
 
         foreach (var zone in player1DropZones)
@@ -180,10 +220,6 @@ public class GameManager : MonoBehaviour
                 {
                     player1DrawPile.Add(match);
                     availableSongsForPiles.Remove(match);
-                }
-                else
-                {
-                    Debug.LogError($"Il manque une chanson pour l'année {zone.targetYear} pour le Joueur 1 !");
                 }
             }
         }
@@ -198,10 +234,6 @@ public class GameManager : MonoBehaviour
                     player2DrawPile.Add(match);
                     availableSongsForPiles.Remove(match);
                 }
-                else
-                {
-                    Debug.LogError($"Il manque une chanson pour l'année {zone.targetYear} pour le Joueur 2 !");
-                }
             }
         }
 
@@ -209,22 +241,17 @@ public class GameManager : MonoBehaviour
         player2Deck.Clear();
     }
 
-    // Pioche une carte STRICTEMENT parmi celles correspondant aux dropzones du joueur
     public void DrawCardForPlayer(int playerIndex)
     {
         UpdateTurnUI(playerIndex);
-
         List<SongData> currentPile = (playerIndex == 0) ? player1DrawPile : player2DrawPile;
 
-        if (currentPile.Count == 0)
-        {
-            Debug.LogWarning("La pioche est vide !");
-            return;
-        }
+        if (currentPile.Count == 0) return;
 
-        int randomIndex = Random.Range(0, currentPile.Count);
+        // CORRECTION ICI : UnityEngine.Random pour éviter l'ambiguïté
+        int randomIndex = UnityEngine.Random.Range(0, currentPile.Count);
         SongData songToDraw = currentPile[randomIndex];
-        currentPile.RemoveAt(randomIndex); // Retire la carte pour ne pas la redonner
+        currentPile.RemoveAt(randomIndex);
 
         GameObject cardGO = Instantiate(cardButtonPrefab, cardDeckParent);
         var cb = cardGO.GetComponent<CardButton>();
@@ -232,7 +259,6 @@ public class GameManager : MonoBehaviour
         cb.SetPlayerIndex(playerIndex);
     }
 
-    // Remet une carte échouée dans la pioche du joueur
     public void ReturnCardToPile(SongData song, int playerIndex)
     {
         if (playerIndex == 0) player1DrawPile.Add(song);

@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Bad Blood
   artist: Taylor Swift
   year: 2014
-  midiFileName: 
+  midiFileName: bad-blood-taylor-swift-beginner
   previewAudio: {fileID: 8300000, guid: 5b4ab4c16a51667478a12ce108214410, type: 3}
   cardSprite: {fileID: -9203880815777571350, guid: 50edc2b5506243c419a5c86074f7928f, type: 3}
   genres: 0000000005000000
